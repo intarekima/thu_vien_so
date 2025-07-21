@@ -3,6 +3,7 @@
 
 2. Địa chỉ website
 - http://userprivateforme-001-site1.mtempurl.com/
+- http://userprivateforme-001-site1.mtempurl.com/admin
 
 3. Tài khoản admin
 - Tài khoản : admin_cuong@gmail.com     Mật khẩu : 123
