@@ -1,1 +1,9 @@
+HƯỚNG DẪN CÀI ĐẶT VÀ SỬ DỤNG SOURCE .NET THƯ VIỆN SỐ
 
+1. Yêu cầu môi trường
+- Cần có Visual Studio 2022 và đã cài đặt .NET SDK 8.0
+- Đã cài đặt Git hoặc Github
+
+2. Lấy source về từ Github
+- Chạy câu lệnh trong terminal : git clone https://github.com/intarekima/thu_vien_so.git
+- Tiếp tục chạy câu lệnh : cd thu_vien_so
