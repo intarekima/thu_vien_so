@@ -1,1 +1,13 @@
+1. Đường dẫn source code
+- https://github.com/intarekima/thu_vien_so
 
+2. Địa chỉ website
+- http://userprivateforme-001-site1.mtempurl.com/
+
+3. Tài khoản admin
+- Tài khoản : admin_cuong@gmail.com     Mật khẩu : 123
+- Tài khoản : admin_dat@gmail.com       Mật khẩu : 123
+
+4. Các vấn đề đã làm thêm sau khi phản biện
+- Về tài liệu ở trang admin đã thêm vào 2 trường mới là năm xuất bản và năm tái bản
+- Tìm tài liệu ở trang user đã cập nhật lại tìm kiếm fulltext , trước đó là tìm kiếm dạng "%LIKE%"
