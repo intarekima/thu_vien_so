@@ -7,3 +7,8 @@ HƯỚNG DẪN CÀI ĐẶT VÀ SỬ DỤNG SOURCE .NET THƯ VIỆN SỐ
 2. Lấy source về từ Github
 - Chạy câu lệnh trong terminal : git clone https://github.com/intarekima/thu_vien_so.git
 - Tiếp tục chạy câu lệnh : cd thu_vien_so
+
+3. Chạy dự án
+- Mở Visual Code lên và open folder chứa source code
+- Sau đó nhấn F5 (Start Debug)
+- Sau khi nhấn F5 thì Visual Studio sẽ mở trình duyệt : https://localhost:7047/
