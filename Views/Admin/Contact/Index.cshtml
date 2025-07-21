@@ -1,0 +1,140 @@
+﻿@model List<thuvienso.Models.Contact>
+@{
+    ViewData["Title"] = "Trang khách hàng liên hệ";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+}
+@await Html.PartialAsync("~/Views/Shared/Admin/_Notification.cshtml")
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6"><h3 class="mb-0">Danh Sách Liên Hệ</h3></div>
+        </div>
+    </div>
+</div>
+<div class="app-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <form method="get" class="card-search w-100">
+                            <div class="row g-2">
+                                <div class="col-1 flex-grow-1">
+                                    <input type="search" name="name" class="form-control" placeholder="Tên khách hàng"
+                                           value="@ViewBag.Name" />
+                                </div>
+                                <div class="col-1 flex-grow-1">
+                                    <input type="email" name="email" class="form-control" placeholder="Email"
+                                           value="@ViewBag.Email" />
+                                </div>
+                                <div class="col-1 flex-grow-1">
+                                    <input type="text" name="phone" class="form-control" placeholder="SĐT"
+                                           value="@ViewBag.Phone" />
+                                </div>
+                                @* <div class="col-1 flex-grow-1">
+                                    <select name="isHandled" class="form-control">
+                                        <option value="">-- Trạng thái --</option>
+                                        <option value="true" selected="@(ViewBag.IsHandled == "true")">Đã xử lý</option>
+                                        <option value="false" selected="@(ViewBag.IsHandled == "false")">Chưa xử lý</option>
+                                    </select>
+                                </div> *@
+                                <div class="col-1 flex-grow-1 form-floating">
+                                    <input type="date" class="form-control" id="fromDate" name="fromDate"
+                                           value="@ViewBag.FromDate" placeholder="Từ ngày">
+                                    <label for="fromDate">Liên hệ từ</label>
+                                </div>
+
+                                <div class="col-1 flex-grow-1 form-floating">
+                                    <input type="date" class="form-control" id="toDate" name="toDate"
+                                           value="@ViewBag.ToDate" placeholder="Đến ngày">
+                                    <label for="toDate">Đến ngày</label>
+                                </div>
+                                <div class="col-1">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên khách hàng</th>
+                                    <th>Email</th>
+                                    <th>SĐT</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Nội dung</th>
+                                    <th>Ngày liên hệ</th>
+                                    @* <th>Xử lý</th> *@
+                                    <th class="text-center">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Id</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Email</td>
+                                            <td>@item.Phone</td>
+                                            <td>@item.Subject</td>
+                                            <td>@(string.IsNullOrWhiteSpace(item.Message) ? "-" : item.Message)</td>
+                                            <td>@item.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                            <td class="text-center">
+                                                @* <a href="/admin/contact/edit/@item.Id" class="btn btn-warning btn-sm">Chỉnh sửa</a> *@
+                                                <a href="/admin/contact/delete/@item.Id" class="btn btn-danger btn-sm"
+                                                   onclick="return confirm('Bạn có chắc muốn xoá liên hệ này không?');">Xoá</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" class="text-center text-muted">Không có liên hệ nào.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@{
+    var q = Context.Request.Query;
+    string queryString = "";
+
+    if (!string.IsNullOrEmpty(q["name"]))
+        queryString += $"name={q["name"]}&";
+
+    if (!string.IsNullOrEmpty(q["email"]))
+        queryString += $"email={q["email"]}&";
+
+    if (!string.IsNullOrEmpty(q["phone"]))
+        queryString += $"phone={q["phone"]}&";
+
+    if (!string.IsNullOrEmpty(q["fromDate"]))
+        queryString += $"fromDate={q["fromDate"]}&";
+
+    if (!string.IsNullOrEmpty(q["toDate"]))
+        queryString += $"toDate={q["toDate"]}&";
+
+    queryString = queryString.TrimEnd('&');
+}
+
+@await Html.PartialAsync("~/Views/Shared/Admin/_Pagination.cshtml", new {
+CurrentPage = ViewBag.CurrentPage,
+    PageSize = ViewBag.PageSize,
+    TotalItems = ViewBag.TotalItems,
+    QueryString = queryString
+})

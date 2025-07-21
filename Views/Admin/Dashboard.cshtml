@@ -1,0 +1,387 @@
+﻿@{
+    ViewData["Title"] = "Trang Quản Trị";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml"; 
+}
+
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6"><h3 class="mb-0">Dashboard</h3></div>
+        </div>
+    </div>
+</div>
+<div class="app-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <div class="small-box text-bg-primary">
+                    <div class="inner">
+                        <h3>@ViewBag.TotalViews</h3>
+                        <p>Tổng lượt xem</p>
+                    </div>
+                    <svg class="small-box-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z" />
+                    </svg>
+
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div class="small-box text-bg-success">
+                    <div class="inner">
+                        <h3>@ViewBag.TotalDownloads</h3>
+                        <p>Tổng lượt tải</p>
+                    </div>
+                    <svg class="small-box-icon" fill="currentColor" viewBox="-5 -5 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d='M8 6.641l1.121-1.12a1 1 0 0 1 1.415 1.413L7.707 9.763a.997.997 0 0 1-1.414 0L3.464 6.934A1 1 0 1 1 4.88 5.52L6 6.641V1a1 1 0 1 1 2 0v5.641zM1 12h12a1 1 0 0 1 0 2H1a1 1 0 0 1 0-2z' />
+                    </svg>
+
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div class="small-box text-bg-warning text-white">
+                    <div class="inner">
+                        <h3>@ViewBag.TotalQrScans</h3>
+                        <p>Tổng lượt quét QR</p>
+                    </div>
+                    <svg class="small-box-icon" fill="currentColor" viewBox="-10 -5 1034 1034" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="currentColor" d="M100 226v54v320h373v-374h-373zM527 226v54v320h373v-374h-373zM153 280h54h213v266h-267v-266zM580 280h53h214v266h-267v-266zM207 333v53v107h160v-160h-160zM633 333v53v107h160v-160h-160zM100 653v53v320h373v-373h-373zM687 653v53v54h106v-54h-53v-53h-53z
+                        M687 760h-54h-106v106h53v54h-53v53h53v53h107v-160h-54v-53h54v-53zM153 706h54h213v267h-267v-267zM207 760v53v107h160v-160h-160zM847 760v53h-54v160h-53v53h107v-53h53v-213h-53z" />
+                    </svg>
+
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div class="small-box text-bg-danger">
+                    <div class="inner">
+                        <h3>@String.Format("{0:N0}đ", ViewBag.TotalRevenue)</h3>
+                        <p>Tổng doanh thu</p>
+                    </div>
+                    <svg class="small-box-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path clip-rule="evenodd" fill-rule="evenodd" d="M2.25 13.5a8.25 8.25 0 018.25-8.25.75.75 0 01.75.75v6.75H18a.75.75 0 01.75.75 8.25 8.25 0 01-16.5 0z"></path>
+                        <path clip-rule="evenodd" fill-rule="evenodd" d="M12.75 3a.75.75 0 01.75-.75 8.25 8.25 0 018.25 8.25.75.75 0 01-.75.75h-7.5a.75.75 0 01-.75-.75V3z"></path>
+                    </svg>
+ 
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="row mt-4">
+            <!-- Bảng: Tài liệu được xem nhiều nhất -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header border-transparent">
+                        <h3 class="card-title">Top 10 tài liệu được xem nhiều nhất</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table m-0 table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tiêu đề</th>
+                                        <th>Lượt xem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.TopViewed != null)
+                                    {
+                                        foreach (var doc in (List<thuvienso.Models.Document>)ViewBag.TopViewed)
+                                        {
+                                            <tr>
+                                                <td>@doc.Id</td>
+                                                <td>@doc.Title</td>
+                                                <td><span class="">@((doc.View ?? 0))</span></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-center text-muted">Không có dữ liệu</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card-footer clearfix text-right">
+                        <a href="/admin/document?sortBy=view" class="btn btn-sm btn-secondary">Xem tất cả</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Bảng: Tài liệu được tải nhiều nhất -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header border-transparent">
+                        <h3 class="card-title">Top 10 tài liệu được tải nhiều nhất</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table m-0 table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tiêu đề</th>
+                                        <th>Lượt tải</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.TopDownloaded != null)
+                                    {
+                                        foreach (var doc in (List<thuvienso.Models.Document>)ViewBag.TopDownloaded)
+                                        {
+                                            <tr>
+                                                <td>@doc.Id</td>
+                                                <td>@doc.Title</td>
+                                                <td><span class="">@((doc.Download ?? 0))</span></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-center text-muted">Không có dữ liệu</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card-footer clearfix text-right">
+                        <a href="/admin/document?sortBy=download" class="btn btn-sm btn-secondary">Xem tất cả</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mt-4">
+            <!-- Bảng: Tài liệu được mua nhiều nhất -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header border-transparent">
+                        <h3 class="card-title">Top 10 tài liệu được mua nhiều</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table m-0 table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tiêu đề</th>
+                                        <th>Lượt mua</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.TopPurchased != null)
+                                    {
+                                        foreach (var item in ViewBag.TopPurchased)
+                                        {
+                                            <tr>
+                                                <td>@item.Id</td>
+                                                <td>@item.Title</td>
+                                                <td><span class="">@(item.PurchaseCount > 0 ? item.PurchaseCount : 0)</span></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-center text-muted">Không có dữ liệu</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer clearfix text-right">
+                        <a href="/admin/document?sortBy=purchase" class="btn btn-sm btn-secondary">Xem tất cả</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Bảng: Tài liệu có doanh thu cao nhất -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header border-transparent">
+                        <h3 class="card-title">Top 10 tài liệu có doanh thu cao nhất</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table m-0 table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tiêu đề</th>
+                                        <th>Doanh thu</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.TopRevenue != null)
+                                    {
+                                        foreach (var item in ViewBag.TopRevenue)
+                                        {
+                                            <tr>
+                                                <td>@item.Id</td>
+                                                <td>@item.Title</td>
+                                                <td><span class="">@String.Format("{0:N0}đ", item.Revenue)</span></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-center text-muted">Không có dữ liệu</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    @* <div class="card-footer clearfix text-right">
+                        <a href="/admin/order?sort=highest-revenue" class="btn btn-sm btn-secondary">Xem tất cả</a>
+                    </div> *@
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header border-transparent">
+                        <h3 class="card-title">Danh sách đơn hàng gần đây</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table m-0 table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Người mua</th>
+                                        <th>Mã đơn</th>
+                                        <th>Tài liệu</th>
+                                        <th>Trạng thái</th>
+                                        <th>% Đã trả</th>
+                                        <th>Chi phí gốc</th>
+                                        <th>Đã thanh toán</th>
+                                        <th>QR</th>
+                                        <th>Link thanh toán</th>
+                                        <th>Thanh toán lúc</th>
+                                        <th>Tạo đơn lúc</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.RecentOrders != null)
+                                    {
+                                        foreach (var o in ViewBag.RecentOrders)
+                                        {
+                                            <tr>
+                                                <td>@o.Id</td>
+                                                <td>@o.UserFullName <br /> <small>@o.Email</small> <br /><small>@o.Phone</small></td>
+                                                <td>@o.OrderCode</td>
+                                                <td>@o.DocumentTitle</td>
+                                                <td>
+                                                    @{
+                                                        string badgeClass = "secondary";
+                                                        string statusText = "Không rõ";
+
+                                                        switch (o.PaymentStatus)
+                                                        {
+                                                            case "paid":
+                                                                badgeClass = "success";
+                                                                statusText = "Đã thanh toán";
+                                                                break;
+                                                            case "pending":
+                                                                badgeClass = "warning";
+                                                                statusText = "Đang chờ thanh toán";
+                                                                break;
+                                                            case "failed":
+                                                                badgeClass = "danger";
+                                                                statusText = "Thanh toán thất bại";
+                                                                break;
+                                                            case "canceled":
+                                                                badgeClass = "dark";
+                                                                statusText = "Đã hủy";
+                                                                break;
+                                                        }
+                                                    }
+                                                    <span class="badge bg-@badgeClass">@statusText</span>
+                                                </td>
+
+                                                <td>@o.PercentPaid%</td>
+                                                <td>@String.Format("{0:N0}đ", o.TotalPrice)</td>
+                                                <td>@String.Format("{0:N0}đ", o.PricePaid)</td>
+                                                <td>
+                                                    <img width="40px" src="@o.QrCodeUrl" />
+                                                </td>
+                                                <td>
+                                                    <a href="@o.CheckoutUrl" target="_blank" class="btn btn-sm btn-outline-primary">Mở link</a>
+                                                </td>
+                                                <td>@(o.TransactionTime?.ToString("dd/MM/yyyy HH:mm") ?? "-")</td>
+                                                <td>@o.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="12" class="text-center text-muted">Không có đơn hàng gần đây</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card-footer clearfix text-right">
+                        <a href="/admin/order" class="btn btn-sm btn-secondary">Xem tất cả</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

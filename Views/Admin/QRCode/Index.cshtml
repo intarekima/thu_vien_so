@@ -1,0 +1,138 @@
+﻿@model List<thuvienso.Models.QRCode>
+@{
+    ViewData["Title"] = "Quản lý QR Code";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+}
+
+@await Html.PartialAsync("~/Views/Shared/Admin/_Notification.cshtml")
+
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6"><h3 class="mb-0">Danh Sách QR Code</h3></div>
+        </div>
+    </div>
+</div>
+
+<div class="app-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <form method="get" class="card-search w-100">
+                            <div class="row g-2 justify-content-end">
+                                <div class="col-2">
+                                    <input type="search" name="search" class="form-control" placeholder="Tên tài liệu"
+                                           value="@Context.Request.Query["search"]" />
+                                </div>
+                                <div class="col-2">
+                                    <select name="type" class="form-control">
+                                        <option value="">-- Loại QR --</option>
+                                        <option value="view" selected="@(Context.Request.Query["type"] == "view")">Xem</option>
+                                        <option value="download" selected="@(Context.Request.Query["type"] == "download")">Tải</option>
+                                    </select>
+                                </div>
+                                <div class="col-2">
+                                    <select name="sortBy" class="form-control">
+                                        <option value="">-- Sắp xếp --</option>
+                                        <option value="scan" selected="@(Context.Request.Query["sortBy"] == "scan")">Lượt quét nhiều nhất</option>
+                                    </select>
+                                </div>
+                                <div class="col-1">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ảnh QR</th>
+                                    <th>Tài liệu</th>
+                                    <th>Số lượt quét</th>
+                                    <th>Loại</th>
+                                    @* <th>Hoạt động</th> *@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Id</td>
+                                            <td>
+                                                <img src="@item.QrUrl" alt="QR" style="height:60px" />
+                                            </td>
+                                            <td>
+                                                <a href="/admin/document/edit/@item.Document?.Id" target="_blank">
+                                                    @item.Document?.Title
+                                                </a>
+                                            </td>
+                                            <td>@item.ScanCount</td>
+                                            <td>
+                                                @if (item.Type == thuvienso.Models.QRCodeType.view)
+                                                {
+                                                    <span class="badge bg-warning">Xem</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-warning">Tải xuống</span>
+                                                }
+                                            </td>
+                                            @* <td>
+                                                @if (item.IsActive)
+                                                {
+                                                    <span class="badge bg-success">Hoạt động</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger">Vô hiệu hoá</span>
+                                                }
+                                            </td> *@
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted">Không có QR Code nào.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@{
+    var q = Context.Request.Query;
+    string queryString = "";
+
+    if (!string.IsNullOrEmpty(q["search"]))
+        queryString += $"search={q["search"]}&";
+
+    if (!string.IsNullOrEmpty(q["type"]))
+        queryString += $"type={q["type"]}&";
+
+    if (!string.IsNullOrEmpty(q["sortBy"]))
+        queryString += $"sortBy={q["sortBy"]}&";
+
+    queryString = queryString.TrimEnd('&');
+}
+
+@await Html.PartialAsync("~/Views/Shared/Admin/_Pagination.cshtml", new {
+CurrentPage = ViewBag.CurrentPage,
+    PageSize = ViewBag.PageSize,
+    TotalItems = ViewBag.TotalItems,
+    QueryString = queryString
+})

@@ -1,0 +1,196 @@
+﻿@model List<thuvienso.Models.Payment>
+@{
+    ViewData["Title"] = "Quản Lý Đơn Hàng";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+}
+
+@await Html.PartialAsync("~/Views/Shared/Admin/_Notification.cshtml")
+
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="mb-0">Danh Sách Đơn Hàng</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="app-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex flex-wrap">
+                        <form method="get" class="card-search mb-2 mt-4" style="flex-basis: 100%">
+                            <div class="row g-2 mb-2">
+                                <div class="col-3 flex-grow-1">
+                                    <input type="search" name="search" class="form-control"
+                                           placeholder="Họ tên,email,sđt,tài liệu,mã đơn..."
+                                           value="@ViewBag.Search" />
+                                </div>
+
+                                <div class="col-2">
+                                    <select name="status" class="form-control">
+                                        <option value="">Trạng thái</option>
+                                        <option value="pending" selected="@(ViewBag.Status == "pending")">Đang chờ</option>
+                                        <option value="paid" selected="@(ViewBag.Status == "paid")">Đã thanh toán</option>
+                                        <option value="failed" selected="@(ViewBag.Status == "failed")">Thất bại</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-2">
+                                    <select name="percent" class="form-control">
+                                        <option value="">% thanh toán</option>
+                                        <option value="25" selected="@(ViewBag.Percent?.ToString() == "25")">25%</option>
+                                        <option value="50" selected="@(ViewBag.Percent?.ToString() == "50")">50%</option>
+                                        <option value="100" selected="@(ViewBag.Percent?.ToString() == "100")">100%</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-2 form-floating">
+                                    <input type="date" class="form-control" id="fromDate" name="fromDate"
+                                           value="@ViewBag.FromDate" placeholder="Từ ngày" />
+                                    <label for="fromDate">Tạo đơn từ</label>
+                                </div>
+
+                                <div class="col-2 form-floating">
+                                    <input type="date" class="form-control" id="toDate" name="toDate"
+                                           value="@ViewBag.ToDate" placeholder="Đến ngày" />
+                                    <label for="toDate">Đến ngày</label>
+                                </div>
+
+                                <div class="col-1">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Người mua</th>
+                                    <th>Mã đơn</th>
+                                    <th>Tài liệu</th>
+                                    <th>Trạng thái</th>
+                                    <th>% Đã thanh toán</th>
+                                    <th>Chi phí gốc</th>
+                                    <th>Đã thanh toán</th>
+                                    <th>QR</th>
+                                    <th>Link thanh toán</th>
+                                    <th>Thanh toán lúc</th>
+                                    <th>Tạo đơn lúc</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    foreach (var order in Model)
+                                    {
+                                        <tr>
+                                            <td>@order.Id</td>
+                                            <td>@order.User?.Name<br /><small>@order.User?.Email</small><br /><small>@order.User?.Phone</small></td>
+                                            <td>@order.OrderCode</td>
+                                            <td>
+                                                @if (order.Document != null)
+                                                {
+                                                    <a href="/document/@order.Document.Id" target="_blank">
+                                                        @order.Document.Title
+                                                    </a>
+                                                }
+                                            </td>
+                                            <td>
+                                                @{
+                                                    string badgeClass = "secondary";
+                                                    string statusText = "Không rõ";
+
+                                                    switch (order.PaymentStatus)
+                                                    {
+                                                        case "paid":
+                                                            badgeClass = "success";
+                                                            statusText = "Đã thanh toán";
+                                                            break;
+                                                        case "pending":
+                                                            badgeClass = "warning";
+                                                            statusText = "Đang chờ thanh toán";
+                                                            break;
+                                                        case "failed":
+                                                            badgeClass = "danger";
+                                                            statusText = "Thanh toán thất bại";
+                                                            break;
+                                                        case "canceled":
+                                                            badgeClass = "dark";
+                                                            statusText = "Đã hủy";
+                                                            break;
+                                                    }
+                                                }
+                                                <span class="badge bg-@badgeClass">@statusText</span>
+                                            </td>
+                                            <td>@(order.PercentPaid)%</td>
+                                            <td>@String.Format("{0:N0}đ", order.TotalPrice)</td>
+                                            <td>@String.Format("{0:N0}đ", order.PricePaid)</td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(order.QrCodeUrl))
+                                                {
+                                                    <img src="@order.QrCodeUrl" style="height: 40px;" />
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(order.CheckoutUrl))
+                                                {
+                                                    <a href="@order.CheckoutUrl" target="_blank" class="btn btn-sm btn-outline-primary">Mở link</a>
+                                                }
+                                            </td>
+                                            <td>@order.TransactionTime?.ToString("dd/MM/yyyy HH:mm")</td>
+                                            <td>@order.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="12" class="text-center text-muted">Không có đơn hàng nào.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@{
+    var q = Context.Request.Query;
+    string queryString = "";
+
+    if (!string.IsNullOrEmpty(q["search"]))
+        queryString += $"search={q["search"]}&";
+
+    if (!string.IsNullOrEmpty(q["status"]))
+        queryString += $"status={q["status"]}&";
+
+    if (!string.IsNullOrEmpty(q["percent"]))
+        queryString += $"percent={q["percent"]}&";
+
+    if (!string.IsNullOrEmpty(q["fromDate"]))
+        queryString += $"fromDate={q["fromDate"]}&";
+
+    if (!string.IsNullOrEmpty(q["toDate"]))
+        queryString += $"toDate={q["toDate"]}&";
+
+    queryString = queryString.TrimEnd('&');
+}
+@await Html.PartialAsync("~/Views/Shared/Admin/_Pagination.cshtml", new {
+CurrentPage = ViewBag.CurrentPage,
+    PageSize = ViewBag.PageSize,
+    TotalItems = ViewBag.TotalItems,
+    QueryString = queryString
+})
+
